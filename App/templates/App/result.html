@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Submission Successful</title>
+    <link rel="stylesheet" href="{% static 'App/css/resultStyles.css' %}" />
+  </head>
+  <body>
+    <div class="result-container">
+      <h1>Prediction Result</h1>
+      <p>Based on your input, here are the predictions:</p>
+
+      <div class="result">
+        <h2>Predicted Selling Price: <span>${{ predicted_price|floatformat:2 }}</span></h2>
+      </div>
+
+      <p>Input Details:</p>
+      <ul class="input-details">
+        <li><strong>Name:</strong> {{ car_sale.name }}</li>
+        <li><strong>Year:</strong> {{ car_sale.year }}</li>
+        <li><strong>KM Driven:</strong> {{ car_sale.km_driven }}</li>
+        <li><strong>State:</strong> {{ car_sale.state }}</li>
+        <li><strong>City:</strong> {{ car_sale.city }}</li>
+        <li><strong>Fuel:</strong> {{ car_sale.fuel }}</li>
+        <li><strong>Seller Type:</strong> {{ car_sale.seller_type }}</li>
+        <li><strong>Transmission:</strong> {{ car_sale.transmission }}</li>
+        <li><strong>Owner:</strong> {{ car_sale.owner }}</li>
+        <li><strong>Mileage:</strong> {{ car_sale.mileage }}</li>
+        <li><strong>Engine:</strong> {{ car_sale.engine }}</li>
+        <li><strong>Max Power:</strong> {{ car_sale.max_power }}</li>
+        <li><strong>Seats:</strong> {{ car_sale.seats }}</li>
+        <li><strong>Region:</strong> {{ car_sale.region }}</li>
+      </ul>
+
+      <a href="{% url 'app' %}" class="result-button">Predict Another Listing</a>
+    </div>
+  </body>
+</html>

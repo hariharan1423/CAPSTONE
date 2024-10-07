@@ -1,0 +1,118 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    height: 100vh; /* Full viewport height */
+    position: relative;
+}
+
+.top-nav {
+    display: flex;
+    justify-content: flex-end; /* Align to the right */
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 10; /* Ensure it's above other elements */
+    
+    border-radius: 15px; /* Curved edges */
+    padding: 10px 20px; /* Padding around the nav items */
+    
+}
+
+.top-nav a {
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+    margin-left: 20px; /* Space between links */
+    transition: color 0.3s, background-color 0.3s, transform 0.3s; /* Smooth transition */
+    padding: 5px 10px; /* Padding for clickable area */
+    border-radius: 10px; /* Curved edges for links */
+}
+
+.top-nav a:hover {
+    color: #fff; /* Change text color on hover */
+    background-color: #00070e; /* Background color on hover */
+    transform: scale(1.05); /* Slightly grow the link on hover */
+}
+
+.container {
+    max-width: 400px;
+    padding: 80px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 15px; /* Curved edges */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    margin-left: 50px; /* Position to the left */
+    align-self: center; /* Center vertically */
+    z-index: 1; /* Place above background */
+}
+
+h1 {
+    color: #333;
+    text-align: center; /* Center title */
+}
+
+form {
+    display: flex;
+    flex-direction: column; /* Stack form elements vertically */
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 5px; /* Curved edges for input fields */
+    transition: border-color 0.3s, box-shadow 0.3s; /* Smooth transition for hover */
+    width: 25em;
+}
+
+input[type="text"]:hover,
+input[type="email"]:hover,
+input[type="password"]:hover {
+    border-color: #000; /* Change border color on hover */
+    box-shadow: 0 0 5px rgba(0, 6, 13, 0.5); /* Subtle glow effect */
+}
+
+button {
+    background-color: #333; /* Button color */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px; /* Curved edges for the button */
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s; /* Smooth transition */
+}
+
+button:hover {
+    background-color: #555; /* Lighter black on hover */
+    transform: scale(1.05); /* Slightly grow the button on hover */
+}
+
+.background-image {
+    flex: 1; /* Take remaining space */
+    position: relative;
+}
+
+.bg-img {
+    width: 100%; /* Make image fill available width */
+    height: auto;
+    position: relative;
+    right: 0;
+    top: 75px;
+    bottom: 0; /* Cover the entire height */
+}
+
+/* Responsive styles */
+@media (max-width: 600px) {
+    body {
+        padding: 10px; /* Less padding on smaller screens */
+    }
+
+    .container {
+        width: 100%; /* Full width on small screens */
+        box-shadow: none; /* Remove shadow for simplicity */
+        margin-left: 0; /* Adjust margin */
+    }
+}
