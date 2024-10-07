@@ -13,7 +13,7 @@
       <p>Based on your input, here are the predictions:</p>
 
       <div class="result">
-        <h2>Predicted Selling Price: <span>${{ predicted_price|floatformat:2 }}</span></h2>
+        <h2>Predicted Selling Price: <span>${{ car_sale.pred_price|floatformat:2 }}</span></h2>
       </div>
 
       <p>Input Details:</p>
@@ -23,9 +23,9 @@
         <li><strong>KM Driven:</strong> {{ car_sale.km_driven }}</li>
         <li><strong>State:</strong> {{ car_sale.state }}</li>
         <li><strong>City:</strong> {{ car_sale.city }}</li>
-        <li><strong>Fuel:</strong> {{ car_sale.fuel }}</li>
-        <li><strong>Seller Type:</strong> {{ car_sale.seller_type }}</li>
-        <li><strong>Transmission:</strong> {{ car_sale.transmission }}</li>
+        <li><strong>Fuel:</strong> {% if car_sale.fuel == 0 %} CNG {% elif car_sale.fuel == 1 %} Diesel {% elif car_sale.fuel == 2 %} LPG {% elif car_sale.fuel == 3 %} Petrol{% endif %}</li>
+        <li><strong>Seller Type:</strong>{% if car_sale.seller_type == 0 %} Dealer {% elif car_sale.seller_type == 1 %} Individual {% elif car_sale.seller_type == 2 %} Trustmark {% endif %}</li>
+        <li><strong>Transmission:</strong> {% if car_sale.transmission == 0 %} Manual {% elif car_sale.transmission == 1 %} Automatic {% endif %}</li>
         <li><strong>Owner:</strong> {{ car_sale.owner }}</li>
         <li><strong>Mileage:</strong> {{ car_sale.mileage }}</li>
         <li><strong>Engine:</strong> {{ car_sale.engine }}</li>

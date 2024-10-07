@@ -16,6 +16,7 @@ class CarSale(models.Model):
     max_power = models.FloatField()
     seats = models.PositiveIntegerField()
     region = models.CharField(max_length=20)
-
+    pred_price = models.PositiveIntegerField(null=True)
+    
     def __str__(self):
         return self.name

@@ -1,24 +1,115 @@
 from django.shortcuts import render, redirect
 from .models import CarSale
+import pickle
+import numpy as np
+import pandas as pd
+from .forms import SignupForm, LoginForm
+
+
+def load():
+    with open('App/model.pkl','rb') as file:
+        rf_model = pickle.load(file)
+    with open('App/encoder.pkl','rb') as en:
+        encoder = pickle.load(en)
+    with open('App/pca.pkl','rb') as pc:
+        pca = pickle.load(pc)
+    with open('App/poly.pkl','rb') as po:
+        poly = pickle.load(po)
+    with open('App/scaler.pkl','rb') as sc:
+        scaler = pickle.load(sc)
+    return [rf_model,encoder,pca,poly,scaler]
+
+[rf_model,encoder,pca,poly,scaler] = load()
+
+def login(request):
+    error_message = None
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+
+            # Validate against the users.txt file
+            valid_credentials = False
+            with open('users.txt', 'r') as f:
+                for line in f:
+                    stored_username, stored_email, stored_password = line.strip().split(', ')
+                    stored_username = stored_username.split(': ')[1]
+                    stored_password = stored_password.split(': ')[1]
+                    
+                    if username == stored_username and password == stored_password:
+                        valid_credentials = True
+                        break
+
+            if valid_credentials:
+                return redirect('app')  
+            else:
+                error_message = 'Invalid username or password.'
+
+    else:
+        form = LoginForm()
+
+    return render(request, 'APP/login.html', {'form': form, 'error_message': error_message})
+
+
+def signup(request):
+    if request.method == 'POST':
+        form = SignupForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            
+            with open('users.txt', 'a') as f:
+                f.write(f'Username: {username}, Email: {email}, Password: {password}\n')
+
+            return redirect('app')
+    else:
+        form = SignupForm()
+
+    return render(request, 'APP/signup.html', {'form': form})
+
 
 
 def app(request):
     if request.method == 'POST':
         name = request.POST.get('name')
-        year = request.POST.get('year')
-        km_driven = request.POST.get('km_driven')
+        year = int(request.POST.get('year'))
+        km_driven = float(request.POST.get('km_driven'))
         state = request.POST.get('state')
         city = request.POST.get('city')
-        fuel = request.POST.get('fuel')
-        seller_type = request.POST.get('seller_type')
-        transmission = request.POST.get('transmission')
+        fuel = int(request.POST.get('fuel'))
+        seller_type = int(request.POST.get('seller_type'))
+        transmission = int(request.POST.get('transmission'))
         owner = request.POST.get('owner')
-        mileage = request.POST.get('mileage')
-        engine = request.POST.get('engine')
-        max_power = request.POST.get('max_power')
-        seats = request.POST.get('seats')
+        mileage = float(request.POST.get('mileage'))
+        engine = float(request.POST.get('engine'))
+        max_power = float(request.POST.get('max_power'))
+        seats = int(request.POST.get('seats'))
         region = request.POST.get('region')
 
+
+        input = pd.DataFrame([[year, km_driven, fuel, seller_type, transmission, mileage, engine, max_power, seats]], columns=['year', 'km_driven', 'fuel', 'seller_type', 'transmission', 'mileage', 'engine', 'max_power', 'seats'])
+ 
+        X_encoded = encoder.transform(input[['fuel', 'seller_type', 'transmission']]).toarray()
+
+        X_numerical =input[['year', 'km_driven', 'mileage', 'engine', 'max_power', 'seats']].values
+        X_combined = np.hstack((X_numerical, X_encoded))
+
+
+        X_poly = poly.transform(X_combined)
+
+        X_log = np.log(X_combined + 1)  # Adding 1 to avoid log(0)
+
+
+        X_scaled = scaler.transform(X_combined)
+
+        X_pca = pca.transform(X_combined)
+
+        X_final = np.hstack((X_combined, X_poly, X_log, X_scaled, X_pca))
+        prediction = rf_model.predict(X_final)
+
+        print(prediction)
         # Create a new CarSale instance
         car_sale = CarSale(
             name=name,
@@ -34,9 +125,11 @@ def app(request):
             engine=engine,
             max_power=max_power,
             seats=seats,
-            region=region
+            region=region,
+            pred_price = prediction
         )
         car_sale.save()
+
         return render(request,'App/result.html',{'car_sale':car_sale}) 
 
     return render(request, 'App/app.html')

@@ -8,6 +8,16 @@
     <link rel="stylesheet" href="{% static 'App/css/styles.css' %}" />
   </head>
   <body>
+    <div class="navbar">
+        <div class="nav-pages">
+          <a href="{% url 'app' %}">
+            Home <span></span>
+          </a>
+          <a href="{% url 'login' %}">
+            Log out<span></span>
+          </a>
+        </div>
+    </div>
     <div class="container">
       {% if error %}
       <div class="alert">{{ error }}</div>
@@ -40,24 +50,25 @@
             <div class="form-group">
               <label>Fuel:</label>
               <select name="fuel" required>
-                <option value="CNG">CNG</option>
-                <option value="Diesel">Diesel</option>
-                <option value="Petrol">Petrol</option>
-                <option value="LPG">LPG</option>
+                <option value=0>CNG</option>
+                <option value=1>Diesel</option>
+                <option value=3>Petrol</option>
+                <option value=2>LPG</option>
               </select>
             </div>
             <div class="form-group">
               <label>Seller Type:</label>
               <select name="seller_type" required>
-                <option value="Individual">Individual</option>
-                <option value="Trustmark Dealer">Trustmark Dealer</option>
+                <option value=1>Individual</option>
+                <option value=2>Trustmark</option>
+                <option value=0>Dealer</option>
               </select>
             </div>
             <div class="form-group">
               <label>Transmission:</label>
               <select name="transmission" required>
-                <option value="Manual">Manual</option>
-                <option value="Automatic">Automatic</option>
+                <option value=1>Manual</option>
+                <option value=0>Automatic</option>
               </select>
             </div>
           </div>
