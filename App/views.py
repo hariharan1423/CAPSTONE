@@ -72,22 +72,33 @@ def signup(request):
 
 
 def app(request):
+    
     if request.method == 'POST':
+        month_year = request.POST.get('year') 
+        year = int(month_year.split('-')[0]) 
         name = request.POST.get('name')
-        year = int(request.POST.get('year'))
-        km_driven = float(request.POST.get('km_driven'))
-        state = request.POST.get('state')
-        city = request.POST.get('city')
-        fuel = int(request.POST.get('fuel'))
-        seller_type = int(request.POST.get('seller_type'))
-        transmission = int(request.POST.get('transmission'))
-        owner = request.POST.get('owner')
-        mileage = float(request.POST.get('mileage'))
-        engine = float(request.POST.get('engine'))
-        max_power = float(request.POST.get('max_power'))
-        seats = int(request.POST.get('seats'))
-        region = request.POST.get('region')
+        try:
+            km_driven = float(request.POST.get('km_driven'))
+            mileage = float(request.POST.get('mileage'))
+            engine = float(request.POST.get('engine'))
+            max_power = float(request.POST.get('max_power'))
+            seats = int(request.POST.get('seats'))
+            fuel = int(request.POST.get('fuel'))
+            seller_type = int(request.POST.get('seller_type'))
+            transmission = int(request.POST.get('transmission'))
+            owner = request.POST.get('owner')
+            state = request.POST.get('state')
+            city = request.POST.get('city')
+            region = request.POST.get('region')
+        except ValueError:
+            return render(request,'App/app.html',{"error":"Invalid input. Please ensure all fields are filled out correctly."})
 
+        if (km_driven < 0 or 
+            mileage < 0 or 
+            engine < 0 or 
+            max_power < 0 or 
+            seats < 0):
+            return render(request,'App/app.html',{"error":"Invalid input. Please ensure all fields are filled out correctly."})
 
         input = pd.DataFrame([[year, km_driven, fuel, seller_type, transmission, mileage, engine, max_power, seats]], columns=['year', 'km_driven', 'fuel', 'seller_type', 'transmission', 'mileage', 'engine', 'max_power', 'seats'])
  

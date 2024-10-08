@@ -33,11 +33,11 @@
             </div>
             <div class="form-group">
               <label>Year:</label>
-              <input type="number" name="year" required />
+              <input type="month" name="year"  required/>
             </div>
             <div class="form-group">
               <label>KM Driven:</label>
-              <input type="number" name="km_driven" required />
+              <input type="number" name="km_driven" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"  required/>
             </div>
             <div class="form-group">
               <label>State:</label>
@@ -82,19 +82,19 @@
             </div>
             <div class="form-group">
               <label>Mileage:</label>
-              <input type="text" name="mileage" required />
+              <input name="mileage" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" required/>
             </div>
             <div class="form-group">
               <label>Engine:</label>
-              <input type="text" name="engine" required />
+              <input type="number" name="engine" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"  required/>
             </div>
             <div class="form-group">
               <label>Max Power:</label>
-              <input type="text" name="max_power" required />
+              <input type="number"  name="max_power" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"  required/>
             </div>
             <div class="form-group">
               <label>Seats:</label>
-              <input type="number" name="seats" required />
+              <input type="number"  name="seats"  pattern="\d+"  required/>
             </div>
             <div class="form-group">
               <label>Region:</label>
